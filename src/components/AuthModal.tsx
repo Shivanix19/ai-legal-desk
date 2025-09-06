@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthModalProps {
   type: 'login' | 'signup';
@@ -10,6 +11,7 @@ interface AuthModalProps {
 
 const AuthModal: React.FC<AuthModalProps> = ({ type, onClose, onSwitchMode }) => {
   const { login, register } = useAuth();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -51,7 +53,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ type, onClose, onSwitchMode }) =>
         const success = login(formData.email, formData.password);
         if (success) {
           onClose();
-          window.location.href = '/dashboard';
+          navigate('/dashboard', { replace: true });
         } else {
           setError('Invalid email or password');
         }
@@ -59,7 +61,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ type, onClose, onSwitchMode }) =>
         const success = register(formData);
         if (success) {
           onClose();
-          window.location.href = '/dashboard';
+          navigate('/dashboard', { replace: true });
         } else {
           setError('User with this email already exists');
         }

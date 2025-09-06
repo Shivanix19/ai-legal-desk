@@ -66,8 +66,12 @@ const ForWhomSection: React.FC = () => {
   const activeTabData = tabs.find(tab => tab.id === activeTab)!;
 
   return (
-    <section id="for-whom" className="section-padding">
-      <div className="container-padding">
+    <section id="for-whom" className="section-padding relative overflow-hidden">
+      {/* Background Blur Effects */}
+      <div className="absolute top-1/3 right-1/3 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute bottom-1/3 left-1/3 w-64 h-64 bg-primary/8 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+      
+      <div className="container-padding relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             Who is <span className="text-gradient">AI Lawyer</span> for?

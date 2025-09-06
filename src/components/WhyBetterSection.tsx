@@ -45,8 +45,12 @@ const WhyBetterSection: React.FC = () => {
   ];
 
   return (
-    <section id="why-better" className="section-padding bg-gradient-to-b from-muted/20 to-background">
-      <div className="container-padding">
+    <section id="why-better" className="section-padding bg-gradient-to-b from-muted/20 to-background relative overflow-hidden">
+      {/* Background Blur Effects */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/8 rounded-full blur-3xl animate-float" style={{ animationDelay: '5s' }}></div>
+      
+      <div className="container-padding relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             Why our <span className="text-gradient">AI in Law</span> is better?
@@ -131,7 +135,7 @@ const WhyBetterSection: React.FC = () => {
           <p className="text-lg text-muted-foreground mb-6">
             Ready to experience the difference?
           </p>
-          <button className="btn-hero">
+          <button className="btn-hero backdrop-blur-sm bg-primary/90 hover:bg-primary shadow-lg hover:shadow-primary/25">
             Start Your Free Trial
           </button>
         </div>

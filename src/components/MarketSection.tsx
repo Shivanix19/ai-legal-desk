@@ -53,8 +53,12 @@ const MarketSection: React.FC = () => {
   ];
 
   return (
-    <section id="market" className="section-padding">
-      <div className="container-padding">
+    <section id="market" className="section-padding relative overflow-hidden">
+      {/* Background Blur Effects */}
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '1.8s' }}></div>
+      <div className="absolute bottom-1/3 left-1/4 w-72 h-72 bg-primary/7 rounded-full blur-3xl animate-float" style={{ animationDelay: '4.2s' }}></div>
+      
+      <div className="container-padding relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             More about <span className="text-gradient">Legal AI</span> market
@@ -161,7 +165,7 @@ const MarketSection: React.FC = () => {
             <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
               Join the thousands of legal professionals already leveraging AI to transform their practice and stay competitive in the evolving legal landscape.
             </p>
-            <button className="btn-hero">
+            <button className="btn-hero backdrop-blur-sm bg-primary/90 hover:bg-primary shadow-lg hover:shadow-primary/25">
               Start Your AI Journey Today
             </button>
           </div>

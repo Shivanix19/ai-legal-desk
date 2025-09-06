@@ -25,6 +25,7 @@ interface ChatContextType {
   sendMessage: (content: string, category: Message['category']) => void;
   renameChat: (chatId: string, newName: string) => void;
   togglePinChat: (chatId: string) => void;
+  deleteChat: (chatId: string) => void;
   clearCurrentChat: () => void;
 }
 
@@ -182,6 +183,14 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const deleteChat = (chatId: string) => {
+    setChats(prev => prev.filter(chat => chat.id !== chatId));
+    
+    if (currentChat?.id === chatId) {
+      setCurrentChat(null);
+    }
+  };
+
   const clearCurrentChat = () => {
     setCurrentChat(null);
   };
@@ -196,6 +205,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sendMessage,
         renameChat,
         togglePinChat,
+        deleteChat,
         clearCurrentChat,
       }}
     >

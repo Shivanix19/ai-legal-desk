@@ -34,8 +34,12 @@ const HowToUseSection: React.FC = () => {
   ];
 
   return (
-    <section id="how-to-use" className="section-padding">
-      <div className="container-padding">
+    <section id="how-to-use" className="section-padding relative overflow-hidden">
+      {/* Background Blur Effects */}
+      <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-primary/6 rounded-full blur-3xl animate-float" style={{ animationDelay: '0.5s' }}></div>
+      <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-primary/4 rounded-full blur-3xl animate-float" style={{ animationDelay: '3.5s' }}></div>
+      
+      <div className="container-padding relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             How to use <span className="text-gradient">Legal AI</span>
@@ -83,7 +87,7 @@ const HowToUseSection: React.FC = () => {
           <p className="text-lg text-muted-foreground mb-6">
             Ready to revolutionize your legal workflow?
           </p>
-          <button className="btn-hero">
+          <button className="btn-hero backdrop-blur-sm bg-primary/90 hover:bg-primary shadow-lg hover:shadow-primary/25">
             Get Started Now
           </button>
         </div>

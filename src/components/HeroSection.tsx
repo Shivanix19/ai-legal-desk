@@ -41,17 +41,17 @@ const HeroSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
             <button
               onClick={() => scrollToSection('#features')}
-              className="btn-hero group"
+              className="btn-hero group flex items-center justify-center"
             >
-              Get Started Today
+              <span>Get Started Today</span>
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
             </button>
             <button
               onClick={() => scrollToSection('#how-to-use')}
-              className="btn-hero-outline group"
+              className="btn-hero-outline group flex items-center justify-center"
             >
               <Play className="mr-2 w-5 h-5" />
-              Learn More
+              <span>Learn More</span>
             </button>
           </div>
 

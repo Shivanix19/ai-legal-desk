@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { Plus, Pin, PinOff, Edit2, MessageSquare } from 'lucide-react';
+import { Plus, Pin, PinOff, Edit2, MessageSquare, MoreVertical, Trash2 } from 'lucide-react';
 import { useChat } from '../context/ChatContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import ConfirmDialog from './ConfirmDialog';
 
 const DashboardSidebar: React.FC = () => {
-  const { chats, currentChat, createNewChat, selectChat, renameChat, togglePinChat } = useChat();
+  const { chats, currentChat, createNewChat, selectChat, renameChat, togglePinChat, deleteChat } = useChat();
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [chatToDelete, setChatToDelete] = useState<string | null>(null);
 
   const pinnedChats = chats.filter(chat => chat.isPinned);
   const unpinnedChats = chats.filter(chat => !chat.isPinned);
@@ -33,6 +42,18 @@ const DashboardSidebar: React.FC = () => {
       handleSaveEdit();
     } else if (e.key === 'Escape') {
       handleCancelEdit();
+    }
+  };
+
+  const handleDeleteClick = (chatId: string) => {
+    setChatToDelete(chatId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (chatToDelete) {
+      deleteChat(chatToDelete);
+      setChatToDelete(null);
     }
   };
 
@@ -70,6 +91,7 @@ const DashboardSidebar: React.FC = () => {
                   onSaveEdit={handleSaveEdit}
                   onCancelEdit={handleCancelEdit}
                   onTogglePin={() => togglePinChat(chat.id)}
+                  onDelete={() => handleDeleteClick(chat.id)}
                   onNameChange={setEditingName}
                   onKeyPress={handleKeyPress}
                 />
@@ -97,6 +119,7 @@ const DashboardSidebar: React.FC = () => {
                   onSaveEdit={handleSaveEdit}
                   onCancelEdit={handleCancelEdit}
                   onTogglePin={() => togglePinChat(chat.id)}
+                  onDelete={() => handleDeleteClick(chat.id)}
                   onNameChange={setEditingName}
                   onKeyPress={handleKeyPress}
                 />
@@ -111,6 +134,15 @@ const DashboardSidebar: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        title="Delete Chat"
+        description="Are you sure you want to delete this chat? This action cannot be undone."
+        onConfirm={handleConfirmDelete}
+      />
     </aside>
   );
 };
@@ -125,6 +157,7 @@ interface ChatItemProps {
   onSaveEdit: () => void;
   onCancelEdit: () => void;
   onTogglePin: () => void;
+  onDelete: () => void;
   onNameChange: (name: string) => void;
   onKeyPress: (e: React.KeyboardEvent) => void;
 }
@@ -139,6 +172,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   onSaveEdit,
   onCancelEdit,
   onTogglePin,
+  onDelete,
   onNameChange,
   onKeyPress,
 }) => {
@@ -167,34 +201,59 @@ const ChatItem: React.FC<ChatItemProps> = ({
             <span className="text-sm font-medium truncate flex-1 mr-2">
               {chat.name}
             </span>
-            <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onStartEdit(chat.id, chat.name);
-                }}
-                className={`p-1 rounded hover:bg-background/20 ${
-                  isActive ? 'text-primary-foreground' : 'text-muted-foreground'
-                }`}
-              >
-                <Edit2 className="w-3 h-3" />
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onTogglePin();
-                }}
-                className={`p-1 rounded hover:bg-background/20 ${
-                  isActive ? 'text-primary-foreground' : 'text-muted-foreground'
-                }`}
-              >
-                {chat.isPinned ? (
-                  <PinOff className="w-3 h-3" />
-                ) : (
-                  <Pin className="w-3 h-3" />
-                )}
-              </button>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  onClick={(e) => e.stopPropagation()}
+                  className={`p-1 rounded hover:bg-background/20 transition-colors ${
+                    isActive ? 'text-primary-foreground' : 'text-muted-foreground'
+                  }`}
+                >
+                  <MoreVertical className="w-4 h-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40">
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onStartEdit(chat.id, chat.name);
+                  }}
+                  className="cursor-pointer"
+                >
+                  <Edit2 className="w-4 h-4 mr-2" />
+                  Rename
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTogglePin();
+                  }}
+                  className="cursor-pointer"
+                >
+                  {chat.isPinned ? (
+                    <>
+                      <PinOff className="w-4 h-4 mr-2" />
+                      Unpin
+                    </>
+                  ) : (
+                    <>
+                      <Pin className="w-4 h-4 mr-2" />
+                      Pin
+                    </>
+                  )}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete();
+                  }}
+                  className="cursor-pointer text-destructive focus:text-destructive"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           {chat.messages.length > 0 && (
             <div className={`text-xs mt-1 truncate ${

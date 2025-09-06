@@ -42,8 +42,12 @@ const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <section id="features" className="section-padding bg-gradient-to-b from-background to-muted/20">
-      <div className="container-padding">
+    <section id="features" className="section-padding bg-gradient-to-b from-background to-muted/20 relative overflow-hidden">
+      {/* Background Blur Effects */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }}></div>
+      
+      <div className="container-padding relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             Features of <span className="text-gradient">Legal AI</span>

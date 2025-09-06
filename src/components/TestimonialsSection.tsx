@@ -53,8 +53,12 @@ const TestimonialsSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="testimonials" className="section-padding bg-gradient-to-b from-background to-muted/20">
-      <div className="container-padding">
+    <section id="testimonials" className="section-padding bg-gradient-to-b from-background to-muted/20 relative overflow-hidden">
+      {/* Background Blur Effects */}
+      <div className="absolute top-1/4 right-1/4 w-88 h-88 bg-primary/6 rounded-full blur-3xl animate-float" style={{ animationDelay: '1.5s' }}></div>
+      <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-primary/4 rounded-full blur-3xl animate-float" style={{ animationDelay: '3.5s' }}></div>
+      
+      <div className="container-padding relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             What our <span className="text-gradient">users think</span>

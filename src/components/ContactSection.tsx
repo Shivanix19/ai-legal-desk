@@ -42,8 +42,12 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="section-padding bg-gradient-to-b from-muted/20 to-background">
-      <div className="container-padding">
+    <section id="contact" className="section-padding bg-gradient-to-b from-muted/20 to-background relative overflow-hidden">
+      {/* Background Blur Effects */}
+      <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2.5s' }}></div>
+      <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-primary/7 rounded-full blur-3xl animate-float" style={{ animationDelay: '4.5s' }}></div>
+      
+      <div className="container-padding relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             Have a <span className="text-gradient">question?</span>
